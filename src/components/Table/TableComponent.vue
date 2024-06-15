@@ -261,21 +261,25 @@ export default defineComponent({
   background-color: white;
   border-radius: 3vh 0 0 3vh;
   position: relative;
+  overflow-y: scroll;
   z-index: 99;
   .header {
     width: 100%;
     height: 10vh;
+    margin-top: 25px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     #newUser {
       outline: none;
       border: none;
-      width: 20vh;
-      height: 5vh;
+      width: 189px;
+      height: 50px;
       margin-right: 20vh;
+      font-weight: 300;
+      font-size: 18px;
       border-radius: 1vh;
-      background-color: #4fc3f7;
+      background-color: #1CB0D3;
       color: white;
       transition: transform 0.3s;
       &:hover {
@@ -310,11 +314,13 @@ export default defineComponent({
     width: 79%;
     margin-top: 4vh;
     margin-left: 10vh;
+    margin-bottom: 25px;
     input[type='checkbox'] {
-      width: 2vh;
-      height: 2vh;
+      width: 24px;
+      height: 24px;
       outline: none;
       border: none;
+      border-radius: 8px;
     }
     .tableHeader {
       .tableRow {
@@ -323,7 +329,9 @@ export default defineComponent({
         padding: 1vh;
         align-items: center;
         .tableCell {
-          color: rgb(112, 112, 112);
+          color: #7E7E7E;
+          font-size: 20px;
+          font-weight: 400;
         }
       }
     }

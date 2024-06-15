@@ -108,10 +108,9 @@ export default defineComponent({
 .tableRowCustom {
   display: flex;
   align-items: center;
-  background-color: #f7f9fc;
-  padding: 1.5vh;
-  border-radius: 1vh;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background-color: #F7FAFC;
+  padding: 25px 25px;
+  border-radius: 8px;
 
   .tableCellCustom {
     display: flex;

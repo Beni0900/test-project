@@ -15,7 +15,7 @@
     <div class="tableCell" style="width: 25%">
       <p
         class="permission"
-        :style="{ background: user.permission == 'agent' ? 'lightblue' : 'rgb(248, 168, 255)' }"
+        :style="{ background: user.permission == 'agent' ? '#C8E7F9' : '#EFE2FE' }"
       >
         {{ user.permission }}
       </p>
@@ -84,19 +84,22 @@ export default defineComponent({
 
 <style scoped lang="scss">
 input[type='checkbox'] {
-  width: 2vh;
-  height: 2vh;
+  width: 24px;
+  height: 24px;
   outline: none;
   border: none;
+  border-radius: 8px;
 }
 .tableRow {
   display: flex;
   margin-bottom: 3vh;
+  gap: 14px;
   border-radius: 1vh;
   padding: 1vh;
-  height: 8vh;
+  height: 96px;
   &:hover {
-    background-color: rgba(209, 209, 209, 0.411);
+    background: #F7FAFC;
+    border-radius: 10px;;
   }
   .tableCell {
     height: 100%;
@@ -116,11 +119,12 @@ input[type='checkbox'] {
     display: flex;
     align-items: center;
     .avatar {
-      width: 5vh;
-      height: 5vh;
-      border-radius: 50%;
+      width: 58px;
+      height: 58px;
+      border-radius: 100%;
       display: flex;
       justify-content: center;
+      font-size: 25px;
       align-items: center;
       color: white;
     }
@@ -128,20 +132,22 @@ input[type='checkbox'] {
       margin: 0.5vh 1vh;
     }
     .userName {
+      font-size: 20px;
       color: black;
     }
     .userEmail {
-      color: grey;
+      font-size: 16px;
+      color: #BDBBBB;
     }
   }
   .permission {
-    padding: 0.5vh;
-    background-color: rgba(228, 163, 174, 0.671);
-    width: 9vh;
+    padding: 5px 10px;
     margin: 0;
-    border-radius: 1vh;
+    font-size: 16px;
     text-align: center;
-    color: purple;
+    background: #EFE2FE;
+    color: #624D9C;
+    border-radius: 10px;
   }
   .actionsContainer {
     display: flex;

@@ -56,7 +56,8 @@ export default defineComponent({
     }
   }
   .active {
-    color: purple;
+    color: #4E37D3;
+    font-weight: 700;
     &:after {
       content: ' ';
       position: absolute;
