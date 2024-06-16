@@ -23,9 +23,11 @@
     <div class="tableCell">
       <div class="actionsContainer">
         <div class="actionButton" @click="editUser">
-          <i class="fa-solid fa-pencil"></i>
+          <img style="width: 1.8vh" :src="pencil" alt="" />
         </div>
-        <div class="actionButton" @click="deleteElement"><i class="fa-solid fa-trash"></i></div>
+        <div class="actionButton" @click="deleteElement">
+          <img style="width: 1.8vh; height: auto" :src="bin" alt="" />
+        </div>
       </div>
     </div>
   </div>
@@ -33,6 +35,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import pencil from '../../assets/pencil.svg'
+import bin from '../../assets/bin.svg'
 
 export default defineComponent({
   name: 'TableUser',
@@ -52,6 +56,12 @@ export default defineComponent({
     selectedUser: {
       type: [Number, Boolean],
       default: false
+    }
+  },
+  data() {
+    return {
+      pencil,
+      bin
     }
   },
   computed: {
@@ -98,8 +108,8 @@ input[type='checkbox'] {
   padding: 1vh;
   height: 96px;
   &:hover {
-    background: #F7FAFC;
-    border-radius: 10px;;
+    background: #f7fafc;
+    border-radius: 10px;
   }
   .tableCell {
     height: 100%;
@@ -137,7 +147,7 @@ input[type='checkbox'] {
     }
     .userEmail {
       font-size: 16px;
-      color: #BDBBBB;
+      color: #bdbbbb;
     }
   }
   .permission {
@@ -145,9 +155,12 @@ input[type='checkbox'] {
     margin: 0;
     font-size: 16px;
     text-align: center;
-    background: #EFE2FE;
-    color: #624D9C;
+    background: #efe2fe;
+    color: #624d9c;
     border-radius: 10px;
+    &::first-letter {
+      text-transform: uppercase;
+    }
   }
   .actionsContainer {
     display: flex;

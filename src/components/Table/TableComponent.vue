@@ -5,6 +5,8 @@ import userData from '../../assets/users.json'
 import PopUp from '../PopUp/PopUp.vue'
 import TableUser from './TableUser.vue'
 import TableEdit from './TableUserEdit.vue'
+import bin from '../../assets/bin.svg'
+import down from '../../assets/down.svg'
 
 export default defineComponent({
   name: 'TableComponent',
@@ -29,7 +31,9 @@ export default defineComponent({
       currentPage: 1,
       pageSize: 6,
       sortField: '',
-      sortDirection: 'asc' as 'asc' | 'desc'
+      sortDirection: 'asc' as 'asc' | 'desc',
+      bin,
+      down
     }
   },
   methods: {
@@ -64,7 +68,6 @@ export default defineComponent({
         console.error('Az új felhasználói adatoknak tartalmaznia kell az "id" tulajdonságot.')
         return
       }
-
       this.userData = this.userData.map((el) => {
         if (el.id === this.selectedUser) {
           if (newUserData.name.length > 0 && newUserData.email.length > 0) {
@@ -81,6 +84,7 @@ export default defineComponent({
           return el
         }
       })
+      this.paginateData()
       this.selectedUser = false
     },
     //új user hozzáadása
@@ -183,11 +187,16 @@ export default defineComponent({
       <div v-if="checkedUsers.length > 0" class="selectedUsersDelete">
         <p>{{ checkedUsers.length }} user selected</p>
         <button id="deleteUsers" @click="questionAll()">
-          <i class="fa-solid fa-trash"></i> Delete selected users
+          <img style="width: 1.8vh; height: auto" :src="bin" alt="" />
+          Delete
         </button>
       </div>
       <button
+        v-if="!isNewUser"
         id="newUser"
+        :style="
+          selectedUser ? { background: 'rgba(28, 176, 211, 0.5)' } : { background: '#1CB0D3' }
+        "
         @click="
           () => {
             if (!selectedUser) {
@@ -206,10 +215,13 @@ export default defineComponent({
             <input type="checkbox" v-model="selectAll" @change="selectAllHandler" />
           </div>
           <div class="tableCell" style="width: 50%" @click="sortBy('name')">Users</div>
-          <div class="tableCell" style="width: 25%" @click="sortBy('permission')">Permission</div>
+          <div class="tableCell" style="width: 25%" @click="sortBy('permission')">
+            Permission
+            <img :src="down" style="width: 1.5vh; height: auto" />
+          </div>
         </div>
       </div>
-      <div class="table-body">
+      <div class="tableBody">
         <TableEdit
           v-if="isNewUser"
           :user="{ name: '', email: '', permission: 'agent' }"
@@ -237,10 +249,57 @@ export default defineComponent({
         </div>
       </div>
       <div class="pagination">
-        <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1">Previous</button>
-        <span>{{ currentPage }} / {{ totalPages }}</span>
+        <button @click="changePage(currentPage - 1)" :disabled="currentPage == 1 ? true : false">
+          <svg
+            width="10"
+            height="14"
+            viewBox="0 0 10 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style="width: 1vh; height: 1vh"
+          >
+            <path
+              d="M8.5 1L2 7.5L8.5 13"
+              :stroke="currentPage == 1 ? '#D9D9D9' : '#7E7E7E'"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </button>
+        <!-- <span>{{ currentPage }} / {{ totalPages }}</span> -->
+        <button
+          class="pages"
+          v-for="page in totalPages"
+          :key="page"
+          :style="
+            page == currentPage
+              ? { background: '#475DE5', color: 'white' }
+              : { background: 'transparent', color: '#7E7E7E' }
+          "
+          @click="
+            () => {
+              currentPage = page
+            }
+          "
+        >
+          {{ page }}
+        </button>
         <button @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages">
-          Next
+          <svg
+            width="9"
+            height="14"
+            viewBox="0 0 9 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style="width: 1vh; height: 1vh"
+          >
+            <path
+              d="M1 13L7.5 6.5L1 0.999999"
+              :stroke="currentPage === totalPages ? '#D9D9D9' : '#7E7E7E'"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
         </button>
       </div>
     </div>
@@ -279,12 +338,11 @@ export default defineComponent({
       font-weight: 300;
       font-size: 18px;
       border-radius: 1vh;
-      background-color: #1CB0D3;
+      background-color: #1cb0d3;
       color: white;
       transition: transform 0.3s;
       &:hover {
         cursor: pointer;
-        transform: scale(1.05);
       }
     }
     div {
@@ -300,6 +358,12 @@ export default defineComponent({
         color: rgb(163, 163, 163);
         font-weight: 700;
         border-radius: 1vh;
+        display: flex;
+        align-items: center;
+        img {
+          margin-right: 1vh;
+          margin-bottom: 0.2vh;
+        }
         i {
           margin-right: 0.5vh;
         }
@@ -315,6 +379,8 @@ export default defineComponent({
     margin-top: 4vh;
     margin-left: 10vh;
     margin-bottom: 25px;
+    min-height: 90vh;
+    position: relative;
     input[type='checkbox'] {
       width: 24px;
       height: 24px;
@@ -328,11 +394,39 @@ export default defineComponent({
         margin-bottom: 3vh;
         padding: 1vh;
         align-items: center;
+        gap: 14px;
         .tableCell {
-          color: #7E7E7E;
+          color: #7e7e7e;
           font-size: 20px;
           font-weight: 400;
         }
+      }
+    }
+  }
+
+  .pagination {
+    height: 3vh;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 1vh;
+    button {
+      border: none;
+      outline: none;
+      background: transparent;
+    }
+    .pages {
+      width: 30px;
+      height: 27px;
+
+      background: #475de5;
+      border-radius: 10px;
+
+      color: white;
+
+      margin: 5px;
+      &:hover {
+        cursor: pointer;
       }
     }
   }

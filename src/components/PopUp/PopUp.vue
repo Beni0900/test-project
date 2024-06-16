@@ -92,7 +92,7 @@ export default {
       }
 
       .delete-button {
-        background-color: #4e69ff;
+        background-color: #475de5;
         color: white;
       }
 

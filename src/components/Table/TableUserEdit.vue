@@ -2,69 +2,34 @@
   <div class="tableRowCustom" style="margin-top: -2vh">
     <div class="tableCellCustom" style="width: 23%">
       <label for="name">Name</label>
-      <input
-        type="text"
-        id="name"
-        placeholder="Enter Name"
-        :value="user.name"
-        @input="
-          (event) => {
-            const inputElement = event.target as HTMLInputElement
-            newUserData.name = inputElement.value
-          }
-        "
-      />
+      <input type="text" id="name" placeholder="Enter Name" v-model="newUserData.name" />
     </div>
     <div class="tableCellCustom" style="width: 23%">
       <label for="email">Email</label>
-      <input
-        type="text"
-        id="email"
-        placeholder="Enter Email"
-        :value="user.email"
-        @input="
-          (event) => {
-            const inputElement = event.target as HTMLInputElement
-            newUserData.email = inputElement.value
-          }
-        "
-      />
+      <input type="text" id="email" placeholder="Enter Email" v-model="newUserData.email" />
     </div>
     <div class="tableCellCustom" v-if="newUser" style="width: 23%">
       <label for="permission">Permission</label>
-      <select
-        id="permission"
-        :value="user.permission"
-        @change="
-          (event) => {
-            const inputElement = event.target as HTMLSelectElement
-            newUserData.permission = inputElement.value
-          }
-        "
-      >
+      <select id="permission" v-model="newUserData.permission">
         <option value="agent">Agent</option>
         <option value="admin">Admin</option>
       </select>
     </div>
     <div class="tableCellCustom" v-if="!newUser" style="width: 23%">
       <label for="permission">Permission</label>
-      <input
-        style="opacity: 0.5"
-        type="text"
-        id="permission"
-        :value="user.permission"
-        @input="
-          (event) => {
-            const inputElement = event.target as HTMLInputElement
-            newUserData.email = inputElement.value
-          }
-        "
-        readOnly
-      />
+      <input style="opacity: 0.5" type="text" id="permission" :value="user.permission" readonly />
     </div>
     <div class="tableCellCustom actionsContainerCustom">
-      <button class="actionButton addButton" @click="save()">{{ newUser ? 'Add' : 'Save' }}</button>
-      <button class="actionButton cancelButton" @click="hide()">Cancel</button>
+      <button
+        class="actionButton addButton"
+        :style="
+          newUserData.name == '' || newUserData.email == '' ? { opacity: 0.5 } : { opacity: 1.0 }
+        "
+        @click="save"
+      >
+        {{ newUser ? 'Add' : 'Save' }}
+      </button>
+      <button class="actionButton cancelButton" @click="hide">Cancel</button>
     </div>
   </div>
 </template>
@@ -93,6 +58,15 @@ export default defineComponent({
       }
     }
   },
+  watch: {
+    user: {
+      handler(newUser) {
+        this.newUserData = { ...newUser }
+      },
+      immediate: true,
+      deep: true
+    }
+  },
   methods: {
     save() {
       this.$emit('save', this.newUserData)
@@ -108,7 +82,7 @@ export default defineComponent({
 .tableRowCustom {
   display: flex;
   align-items: center;
-  background-color: #F7FAFC;
+  background-color: #f7fafc;
   padding: 25px 25px;
   border-radius: 8px;
 
@@ -161,7 +135,7 @@ export default defineComponent({
       font-size: 1.8vh;
 
       &.addButton {
-        background-color: #4fc3f7;
+        background-color: #1cb0d3;
       }
 
       &.cancelButton {
